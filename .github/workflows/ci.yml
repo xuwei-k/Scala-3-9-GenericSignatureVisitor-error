@@ -1,0 +1,29 @@
+on:
+  pull_request:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        scala: [3.8.4, 3.9.0-RC4]
+        parallelism: [true, false]
+    steps:
+    - uses: actions/checkout@v7
+    - uses: actions/setup-java@v5
+      with:
+        java-version: 17
+        distribution: temurin
+    - uses: sbt/setup-sbt@v1
+    - run: sbt
+           -v
+           -Dparallelism=${{ matrix.parallelism }}
+           "++ ${{ matrix.scala }}!"
+           "print scalacOptions"
+           compile
+           clean
+           compile
+           clean
+           compile
