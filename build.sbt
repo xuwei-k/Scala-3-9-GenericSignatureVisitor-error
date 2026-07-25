@@ -1,12 +1,8 @@
 scalaVersion := "3.9.0-RC4"
 
-scalacOptions ++= {
-  if(sys.props.get("parallelism") == Some("true")) {
-    Seq("-Ybackend-parallelism:16")
-  } else {
-    Nil
-  }
-}
+resolvers += Resolver.scalaNightlyRepository
+
+scalacOptions ++= Seq("-Ybackend-parallelism:16")
 
 Compile / sourceGenerators += Def.task[Seq[File]] {
   val dir = (Compile / sourceManaged).value

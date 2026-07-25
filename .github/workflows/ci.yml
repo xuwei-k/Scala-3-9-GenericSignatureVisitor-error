@@ -8,8 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scala: [3.8.4, 3.9.0-RC4]
-        parallelism: [true, false]
+        scala: [3.9.0-RC1-bin-20260429-88140bc-NIGHTLY, 3.9.0-RC1-bin-20260430-a24622b-NIGHTLY]
     steps:
     - uses: actions/checkout@v7
     - uses: actions/setup-java@v5
@@ -19,9 +18,7 @@ jobs:
     - uses: sbt/setup-sbt@v1
     - run: sbt
            -v
-           -Dparallelism=${{ matrix.parallelism }}
            "++ ${{ matrix.scala }}!"
-           "print scalacOptions"
            compile
            clean
            compile
